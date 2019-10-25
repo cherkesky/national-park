@@ -41,3 +41,9 @@ domPrinter=(parkName,ParkState, parkVisted)=>{
   resultsContainer.appendChild(parkArticleEl)
 
 }
+
+
+fetch (`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/37.8267,-122.4233`)
+.then(darkSkyresponse=>darkSkyresponse.json())
+.then(darkSkyJsonfiedResponse=>console.log(darkSkyJsonfiedResponse))
+
