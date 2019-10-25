@@ -10,9 +10,11 @@ fetch("http://localhost:8088/parks")
   .then(response => response.json())
   .then(jsonfiedResponse => jsonIterator(jsonfiedResponse))
 
+// ***************************************************************************
+//  The json iterator gather all the needed info from the apis
+// ***************************************************************************
 jsonIterator = (jsonfiedResponse) => {
   console.log(jsonfiedResponse)
-
   for (i = 0; i < jsonfiedResponse.length; i++) {
     let parkName = jsonfiedResponse[i].name
     let parkState = jsonfiedResponse[i].state
@@ -20,24 +22,21 @@ jsonIterator = (jsonfiedResponse) => {
     let parkLong = jsonfiedResponse[i].longitude
     let parkLat = jsonfiedResponse[i].latitude
 
-
     domPrinter(parkName, parkState, parkVisted, parkLong, parkLat); // calling the dom printer function passing all the parameters
-
-    console.log(parkName)
-    console.log(parkState)
-    console.log(parkVisted)
-    console.log(parkLong)
-    console.log(parkLat)
+    
+    // console.log(parkName)
+    // console.log(parkState)
+    // console.log(parkVisted)
+    // console.log(parkLong)
+    // console.log(parkLat)
   }
 }
 
 // ***************************************************************************
 // The DOM printer helper function
 // ***************************************************************************
+  domPrinter = (parkName, ParkState, parkVisted, parkLong, parkLat) => {
 
-domPrinter = (parkName, ParkState, parkVisted, parkLong, parkLat) => {
-
-  // If the park has been visited, the article tag should have a red dashed border. If the park has not been visited, it should have a green solid border.
   const parkArticleEl = document.createElement("article")
   const parkNameEl = document.createElement("h3")
   const parkStateEL = document.createElement("p")
@@ -52,11 +51,13 @@ domPrinter = (parkName, ParkState, parkVisted, parkLong, parkLat) => {
   let parkLiTodayResponse = fetchWeather(parkLong, parkLat, "Today");
   let parkLiWeekResponse = fetchWeather(parkLong, parkLat, "Week");
 
+  // adding the all the li to the ul
+  parkUlEL.appendChild(parkLiCurrently)
+  parkUlEL.appendChild(parkLiToday)
+  parkUlEL.appendChild(parkLiWeek)
 
-// adding the all the li to the ul
-  parkUlEL.appendChild(parkLiCurrently, parkLiToday, parkLiWeek)
 
-// adding all the child elements to the parent article
+  // adding all the child elements to the parent article
   parkArticleEl.appendChild(parkNameEl)
   parkArticleEl.appendChild(parkStateEL)
   parkArticleEl.appendChild(parkUlEL)
@@ -74,26 +75,30 @@ domPrinter = (parkName, ParkState, parkVisted, parkLong, parkLat) => {
     parkArticleEl.classList.add("not-visited") //adding the relevant class to the element
   }
   resultsContainer.appendChild(parkArticleEl) // adding the article element to the html container
-
 }
+
 // ***************************************************************************
 // Calling the Dark Sky API to get the weather info based on long/lat coordinates and returning the requested weather forcast (currently/today/week) 
 // ***************************************************************************
 fetchWeather = (parkLong, parkLat, whatWeather) => {
+
   fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${apiKey}/${parkLat},${parkLong}`)
     .then(darkSkyresponse => darkSkyresponse.json())
     .then(darkSkyJsonfiedResponse => {
       if (whatWeather === "Currently") {
-        return(darkSkyJsonfiedResponse.currently.summary)
+        console.log("Currently: ", darkSkyJsonfiedResponse.currently.summary)
+        return (darkSkyJsonfiedResponse.currently.summary)
       }
       if (whatWeather === "Today") {
-        return(darkSkyJsonfiedResponse.daily.summary)
+        console.log("Today: ", darkSkyJsonfiedResponse.daily.summary)
+        return (darkSkyJsonfiedResponse.daily.summary)
       }
       if (whatWeather === "Week") {
+        console.log("Week: ",darkSkyJsonfiedResponse.hourly.summary)
         return (darkSkyJsonfiedResponse.hourly.summary)
       }
       console.log(darkSkyJsonfiedResponse)
 
-})
+    }
+    )
 }
-
