@@ -1,9 +1,6 @@
 console.log("national parks js file")
 const resultsContainer= document.querySelector("#results-container");
 
-
-
-
 fetch ("http://localhost:8088/parks") // fetching the local json server
 .then(response => response.json())
 .then(jsonfiedResponse=> jsonIterator(jsonfiedResponse))
