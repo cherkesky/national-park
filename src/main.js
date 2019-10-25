@@ -1,44 +1,45 @@
 console.log("national parks js file")
+const resultsContainer= document.querySelector("#results-container");
 
-fetch ("http://localhost:8088/parks")
+
+
+
+fetch ("http://localhost:8088/parks") // fetching the local json server
 .then(response => response.json())
 .then(jsonfiedResponse=> jsonIterator(jsonfiedResponse))
 
 
 jsonIterator=(jsonfiedResponse)=>{
-console.log(jsonfiedResponse)
+ console.log(jsonfiedResponse)
 
 for (i=0; i<jsonfiedResponse.length; i++){
-console.log (jsonfiedResponse[i].name)
-console.log (jsonfiedResponse[i].state)
-console.log (jsonfiedResponse[i].visited)
+let parkName = jsonfiedResponse[i].name
+let parkState = jsonfiedResponse[i].state
+let parkVisted = jsonfiedResponse[i].visited
 
-// document.getElementById("#results-container").innerHTML = (jsonfiedResponse[i].name)
-// document.getElementById("#results-container").innerHTML = (jsonfiedResponse[i].state)
-// document.getElementById("#results-container").innerHTML = (jsonfiedResponse[i].visited)
+domPrinter(parkName, parkState, parkVisted); // calling the dom printer function
 
-document.querySelector("#results-container").innerHTML += `<h3>Park:</h3> ${jsonfiedResponse[i].name}` 
-document.querySelector("#results-container").innerHTML += `<h3>Sate:</h3> ${jsonfiedResponse[i].state}` 
-document.querySelector("#results-container").innerHTML += `<h3>Visted:</h3> ${jsonfiedResponse[i].visited}` 
-
-
-
-
+console.log (parkName)
+console.log (parkState)
+console.log (parkVisted)
 }
-// insert code here for json iteration
 }
 
+domPrinter=(parkName,ParkState, parkVisted)=>{
+  // If the park has been visited, the article tag should have a red dashed border. If the park has not been visited, it should have a green solid border.
+  const parkArticleEl = document.createElement("article")
+  const parkNameEl = document.createElement("h3")
+  const parkStateEL = document.createElement("p")
+  parkArticleEl.appendChild(parkNameEl)
+  parkArticleEl.appendChild(parkStateEL)
 
+  parkNameEl.textContent = `Name: ${parkName}`
+  parkStateEL.textContent = `Name: ${ParkState}`
+ 
+  if (parkVisted){
+    parkArticleEl.classList.add("visited")
+  }
 
-
-
-
-
-domPrinter=()=>{
-  //insert code here for buiding the DOM elements
-    // `<article>
-    //     <h3>Park Name</h3>
-    //     <p>State the park in located in</p>
-    // </article>`
+  resultsContainer.appendChild(parkArticleEl)
 
 }
