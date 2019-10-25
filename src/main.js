@@ -5,7 +5,6 @@ fetch ("http://localhost:8088/parks") // fetching the local json server
 .then(response => response.json())
 .then(jsonfiedResponse=> jsonIterator(jsonfiedResponse))
 
-
 jsonIterator=(jsonfiedResponse)=>{
  console.log(jsonfiedResponse)
 
@@ -35,6 +34,8 @@ domPrinter=(parkName,ParkState, parkVisted)=>{
  
   if (parkVisted){
     parkArticleEl.classList.add("visited")
+  }else{
+    parkArticleEl.classList.add("not-visited")
   }
 
   resultsContainer.appendChild(parkArticleEl)
