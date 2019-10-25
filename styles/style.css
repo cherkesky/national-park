@@ -1,4 +1,7 @@
 html {
 background-color: dimgray;
+}
 
+.visited {
+color: firebrick;
 }
